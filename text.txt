@@ -1,0 +1,60 @@
+
+let localTodoList = [];
+
+const addTodoList = (e) => {
+    e.preventDefault();
+    // Get the trimmed value from the input field
+    const todoListValue = inputValue.value.trim();
+
+    // Add the value to the localTodoList array
+    localTodoList.push(todoListValue);
+    console.log(localTodoList);
+
+    // Ensure unique values in the todo list
+    // First push works fine because we are adding a string to the array.
+    // Example:
+    // Input: "task1"
+    // localTodoList after push: ["task1"]
+
+    // If we use `new Set(todoListValue)` here:
+    // Example: Input: "task2"
+    // Result: new Set("task2") -> {'t', 'a', 's', 'k', '2'}
+    // It splits "task2" into individual characters, which is NOT what we want.
+
+    // This is why after the first addition, using `new Set(todoListValue)` breaks it
+    // and results in a Set of characters rather than maintaining the array structure.
+
+    // Correct fix:
+    // Convert the entire `localTodoList` array to a Set to ensure unique entries
+    // and then back to an array using the spread operator:
+    localTodoList = [...new Set(localTodoList)];
+    
+    // Now, `localTodoList` remains an array of unique strings:
+    // Example:
+    // Input 1: "task1"
+    // localTodoList: ["task1"]
+    // Input 2: "task2"
+    // localTodoList: ["task1", "task2"]
+    // Input 3: "task1" (duplicate)
+    // localTodoList: ["task1", "task2"] (duplicate removed)
+};
+
+
+### Key Explanation with Examples:
+1. **First Push**: Adding "task1":
+   
+   localTodoList = ["task1"];
+   
+
+2. **Second Input ("task2") with `new Set(todoListValue)`**:
+   
+   new Set("task2") -> {'t', 'a', 's', 'k', '2'} // This splits the string!
+   
+
+3. **Final Fix**: Use `new Set(localTodoList)`:
+   - This ensures the entire `localTodoList` array is checked for duplicates, not the individual string.
+   
+   localTodoList = [...new Set(localTodoList)];
+   
+
+After applying this fix, your code ensures `localTodoList` stays an array of unique strings, and no issues arise with broken character arrays.

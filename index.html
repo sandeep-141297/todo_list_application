@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Application</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Todo List</h1>
+    <br>
+    <form>
+        <div>
+            <input type="text" id="inputValue">
+            <button class="btn">Add Todo</button>
+        </div>
+        <section class="todo-list-elem"></section>
+    </form>
+
+    <script>
+        const mainTodoElem = document.querySelector(".todo-list-elem");
+        const inputValue = document.getElementById("inputValue");
+
+        let localTodoList = [];
+
+        const addTodoList = (e) => {
+            e.preventDefault();
+            // console.log(inputValue.value);
+            // console.log(e);
+            
+            // Get the trimmed value from the input field
+            const todoListValue = inputValue.value.trim();
+
+            // Add the value to the localTodoList array
+            localTodoList.push(todoListValue);
+            console.log(localTodoList);
+            
+            // Ensure unique values in the todo list
+            // Using `new Set()` removes duplicates because a Set only stores unique values
+            // Initially, the array can take duplicates, but we need to convert it to a Set for uniqueness
+            // Note: Converting the Set directly back to an array using spread operator
+            // makes it easier to maintain a simple array structure
+            
+            // localTodoList = new Set(todoListValue);
+            // localTodoList = [new Set(todoListValue)];
+            localTodoList = [...new Set(todoListValue)];
+
+
+            const divElem = document.createElement("div");
+            divElem.classList.add("main_todo_div");
+            divElem.innerHTML = `<li>${inputValue.value}</li> <button class="deleteBtn">Delete</button>`;
+            mainTodoElem.append(divElem);
+        }
+
+        document.querySelector(".btn").addEventListener("click", (e) => {
+            addTodoList(e);
+        });
+    </script>
+</body>
+</html>
